@@ -5,10 +5,10 @@ from mysql.connector import errorcode
 
 class MySQLConnector:
 
-    def __init__(self, user, password, address):
+    def __init__(self, user, password, host):
         self.user = user
         self.password = password
-        self.address = address
+        self.host = host
         self.connection = self._get_connection()
         self.cursor = self.connection.cursor()
         self._db_email()
@@ -21,7 +21,7 @@ class MySQLConnector:
         try:
             connection = mysql.connector.connect(user=self.user,
                                                  password=self.password,
-                                                 host=self.address)
+                                                 host=self.host)
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print("ERROR - Wrong username or password")

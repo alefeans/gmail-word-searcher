@@ -1,5 +1,5 @@
+import os
 import sys
-import argparse
 import base64
 from googleapiclient.discovery import build
 from httplib2 import Http
@@ -120,54 +120,51 @@ def login():
     return service
 
 
-def run(args):
+def run(entries):
     """
-    Creates the mysql connection with the user parameters
-    and iterate over the user emails. If the email haves
-    the 'word' in it's subject or body, then the 'insert_items'
-    is called to insert the content created by 'content_creator'
-    in the database.
+    Creates the mysql connection with the user environment
+    variables and iterate over the user emails. If the email 
+    haves the 'word' in it's subject or body, then the 
+    'insert_items' is called to insert the content created
+    by 'content_creator' in the database.
     """
-    mysql = MySQLConnector(args.user, args.password, args.address)
+    mysql = MySQLConnector(entries['user'],
+                           entries['password'],
+                           entries['host'])
     service = login()
     message_ids = get_message_ids(service)
     for msg in message_ids:
         email = get_email(msg, service)
-        content = analyzer(email, args.word)
+        content = analyzer(email, entries['word'])
         if content:
             mysql.insert_items(content)
     return
 
 
-def parse_args(argv):
-    parser = argparse.ArgumentParser(description="Gmail Word Finder")
-    parser._action_groups.pop()
-    optional = parser.add_argument_group('optional arguments')
-    required = parser.add_argument_group('required arguments')
-    optional.add_argument("-w", "--word",
-                          help="word to find, default is 'DevOps'",
-                          metavar='<word>',
-                          default='DevOps')
-    optional.add_argument("-u", "--user",
-                          help="mysql database user, default is root",
-                          metavar='$MYSQL_USER',
-                          default='root')
-    optional.add_argument("-a", "--address",
-                          help="mysql address, default is localhost",
-                          metavar='$MYSQL_HOST',
-                          default='localhost')
-    required.add_argument("-p", "--password",
-                          help="mysql database password'",
-                          metavar='$MYSQL_PASSWD',
-                          required=True)
-    return parser.parse_args(argv[1:])
+def user_entry():
+    """
+    Get the environment variables:
+    $MYSQL_USER: MySQL user (default root);
+    $MYSQL_PASSWD: MySQL password (required);
+    $MYSQL_HOST: MySQL address (default 'localhost');
+    $WORD: word to find (default 'DevOps');
+    """
+    entries = {}
+    entries['user'] = os.environ.get('MYSQL_USER', 'root')
+    entries['host'] = os.environ.get('MYSQL_HOST', 'localhost')
+    entries['word'] = os.environ.get('WORD', 'DevOps')
+    if "MYSQL_PASSWD" not in os.environ:
+        print("ERROR - Required environment variable $MYSQL_PASSWD is missing")
+        sys.exit()
+    entries['password'] = os.environ['MYSQL_PASSWD']
+    return entries
 
 
-def main(argv):
-    args = parse_args(argv)
-    run(args)
+def main():
+    entries = user_entry()
+    run(entries)
     return 0
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    main()

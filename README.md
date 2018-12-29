@@ -51,6 +51,7 @@ INFO - Inserting ('Thu, 27 Dec 2018 16:51:51 +0000', '"Álefe Nascimento" <alefe
 INFO - Inserting ('Thu, 27 Dec 2018 16:23:41 +0000', '"Álefe Nascimento" <alefeans2@hotmail.com>', 'The DevOps culture') on table 'mail_list'
 INFO - Inserting ('Thu, 27 Dec 2018 16:23:28 +0000', '"Álefe Nascimento" <alefeans2@hotmail.com>', 'DevOps') on table 'mail_list'
 INFO - Inserting ('Tue, 11 Dec 2018 12:44:37 +0000 (UTC)', 'Medium Daily Digest <noreply@medium.com>', '“Transducers: Efficient Data Processing Pipelines in JavaScript” published in JavaScript Scene by Eric Elliott') on table 'mail_list'
+INFO - Finished. Total of item(s) inserted: 4
 ```
 
 And the data in the MySQL table:

@@ -39,13 +39,16 @@ def body(payload):
     Then, returns the 'body' decoded (Gmail mails body comes
     encoded by urlsafe_base64).
     """
-    if 'parts' in payload:
-        if payload['parts'][0]['mimeType'] == 'multipart/alternative':
-            raw = payload['parts'][0]['parts'][0]['body']['data']
+    try:
+        if 'parts' in payload:
+            if payload['parts'][0]['mimeType'] == 'multipart/alternative':
+                raw = payload['parts'][0]['parts'][0]['body']['data']
+            else:
+                raw = payload['parts'][0]['body']['data']
         else:
-            raw = payload['parts'][0]['body']['data']
-    else:
-        raw = payload['body']['data']
+            raw = payload['body']['data']
+    except Exception:
+        return ''
     body = decoder(raw)
     return body
 

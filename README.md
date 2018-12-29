@@ -58,12 +58,9 @@ And the data in the MySQL table:
 | 1| Thu, 27 Dec 2018 16:51:51 +0000 | "Álefe Nascimento" <alefeans2@hotmail.com>|  The DevOps culture|
 
 
-## Tests
+## To Do
 
-Simple:
-```
-pytest
-```
+* Include unit tests.
 
 ## License
 

@@ -24,10 +24,12 @@ def content_creator(headers):
 
 
 def decoder(encoded):
+    """
+    Returns the email body decoded.
+    """
     try:
         decoded = base64.urlsafe_b64decode(encoded).decode('utf-8')
-        decoded = str(decoded)
-        return decoded
+        return str(decoded)
     except Exception as e:
         print(e)
 
@@ -110,31 +112,35 @@ def login():
     Log in trough the 'readonly' Gmail API scope
     and returns the authorized connection.
     A web browser comes up to make the first login, but
-    after that, the json files with the token/credentials
-    do the job.
+    after that, the token.json file do the job.
     """
-    scope = 'https://www.googleapis.com/auth/gmail.readonly'
-    store = file.Storage('token.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('credentials.json', scope)
-        creds = tools.run_flow(flow, store)
-    service = build('gmail', 'v1', http=creds.authorize(Http()))
+    try:
+        scope = 'https://www.googleapis.com/auth/gmail.readonly'
+        store = file.Storage('token.json')
+        creds = store.get()
+        if not creds or creds.invalid:
+            flow = client.flow_from_clientsecrets('credentials.json', scope)
+            creds = tools.run_flow(flow, store)
+        service = build('gmail', 'v1', http=creds.authorize(Http()))
+    except Exception as e:
+        print(e)
+        sys.exit()
     return service
 
 
 def run(entries):
     """
-    Creates the mysql connection with the user environment
-    variables and iterate over the user emails. If the email 
-    haves the 'word' in it's subject or body, then the 
+    Call the function to authenticate on Gmail, creates
+    the mysql connection with the user environment
+    variables and iterate over the user emails. If the email
+    haves the 'word' in it's subject or body, then the
     'insert_items' is called to insert the content created
     by 'content_creator' in the database.
     """
+    service = login()
     mysql = MySQLConnector(entries['user'],
                            entries['password'],
                            entries['host'])
-    service = login()
     message_ids = get_message_ids(service)
     for msg in message_ids:
         email = get_email(msg, service)
@@ -170,4 +176,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

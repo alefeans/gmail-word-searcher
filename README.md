@@ -10,11 +10,11 @@ A **secure** *pythonic* gmail word finder. It's searches for a specific word on 
 To get started, the user needs to allow the authentication by **Gmail API**, following these steps:
 
 * Go to [Gmail API link](https://console.developers.google.com/).
-* Click on the lisf of projects and select `+` to add a new one.
+* Go to the lisf of projects and click on 'New Project'.
 * Give your project a name of your preference and create the project.
-* Go to `Credentials -> OAuth consent screen -> Product name shown to users`. Use the name **gmail_word_finder.py** and Save.
-* Go to `Credentials -> Create Credentials -> OAuth client ID -> Application type -> Other -> Name it 'Gmail Word Finder' -> Press 'OK' in 'Oauth Client Popup' -> Click on 'Download' icon to get your client_secret.json` .
-* Save the *client_secret.json* in **gmail_word_finder/** directory, **rename** it to *credentials.json* and you're good to go.
+* Select your project and go to `Credentials -> OAuth consent screen`. Use the name **gmail_word_finder.py** in the *app name* and Save.
+* Go to `Credentials -> Create Credentials -> OAuth client ID -> Application type 'Other' -> Name it 'Gmail Word Finder' -> Press 'OK' in 'Oauth Client Popup'`
+* Click on *Download* icon to get your *client_secret.json* .
 
 ## Installing
 
@@ -25,6 +25,8 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+
+Move the *client_secret.json* to the **gmail_word_finder/** directory, **rename** it to *credentials.json* and you're good to go. 
 
 The first time you use the script, a web browser will open to authenticate on Gmail. This will create a **token.json** file and you'll don't need to do this on the next execution.
 

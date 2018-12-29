@@ -136,18 +136,22 @@ def run(entries):
     haves the 'word' in it's subject or body, then the
     'insert_items' is called to insert the content created
     by 'content_creator' in the database.
+    Returns the count of items inserted in the database.
     """
     service = login()
     mysql = MySQLConnector(entries['user'],
                            entries['password'],
                            entries['host'])
     message_ids = get_message_ids(service)
+    count = 0
     for msg in message_ids:
         email = get_email(msg, service)
         content = analyzer(email, entries['word'])
         if content:
             mysql.insert_items(content)
-    return
+            count += 1
+    total = "INFO - Finished. Total of item(s) inserted: {}".format(count)
+    return total
 
 
 def user_entry():
@@ -171,7 +175,7 @@ def user_entry():
 
 def main():
     entries = user_entry()
-    run(entries)
+    print(run(entries))
     return 0
 
 

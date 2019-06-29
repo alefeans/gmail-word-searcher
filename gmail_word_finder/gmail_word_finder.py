@@ -31,7 +31,7 @@ def decoder(encoded):
         decoded = base64.urlsafe_b64decode(encoded).decode('utf-8')
         return str(decoded)
     except Exception as e:
-        print(e)
+        print("ERROR - Object can't be decoded: {}".format(e))
 
 
 def body(payload):
@@ -49,7 +49,7 @@ def body(payload):
                 raw = payload['parts'][0]['body']['data']
         else:
             raw = payload['body']['data']
-    except Exception:
+    except KeyError:
         return ''
     body = decoder(raw)
     return body
@@ -69,20 +69,16 @@ def subject(headers):
 def analyzer(email, word):
     """
     Gets the 'payload' and 'headers' from email,
-    and check if the value of 'word' is finded in the
-    email subject OR body. If it's finded, then the
+    and check if the value of 'word' is in the
+    email subject OR body. If it is, then the
     'content constructed' is returned. Else, returns
     empty (None).
     """
     payload = email['payload']
     headers = payload['headers']
-    if word in subject(headers):
-        content = content_creator(headers)
-    elif word in body(payload):
-        content = content_creator(headers)
-    else:
-        return
-    return content
+    if word in subject(headers) or word in body(payload):
+        return content_creator(headers)
+    return
 
 
 def get_email(msg, service):

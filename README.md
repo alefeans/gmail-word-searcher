@@ -32,7 +32,7 @@ The first time you use the script, a web browser will open to authenticate on Gm
 
 ```
 cd gmail_word_searcher/
-python gmail_word_searcher.py
+python gmail_word_searcher.py -w python
 ```
 
 ## Output

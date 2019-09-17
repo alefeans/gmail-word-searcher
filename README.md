@@ -12,7 +12,7 @@ To get started, the user needs to allow the authentication by **Gmail API**, fol
 * Go to [Gmail API link](https://console.developers.google.com/).
 * Go to the lisf of projects and click on 'New Project'.
 * Give your project a name of your preference and create the project.
-* Select your project and go to `Credentials -> OAuth consent screen`. Use the name **gmail_word_searcher.py** in the *app name* and Save.
+* Select your project and go to `Credentials -> OAuth consent screen`. Use the name **gmail-word-searcher.py** in the *app name* and Save.
 * Go to `Credentials -> Create Credentials -> OAuth client ID -> Application type 'Other' -> Name it 'Gmail Word Searcher' -> Press 'OK' in 'Oauth Client Popup'`
 * Click on *Download* icon to get your *client_secret.json* .
 
@@ -20,13 +20,13 @@ To get started, the user needs to allow the authentication by **Gmail API**, fol
 
 To install **Gmail word Searcher** you will need to:
 ```
-git clone https://github.com/alefeans/gmail_word_searcher.git .
+git clone https://github.com/alefeans/gmail-word-searcher.git && cd gmail-word-searcher/
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-Move the *client_secret.json* to the **gmail_word_searcher/** directory, **rename** it to **credentials.json** and you're good to go.
+Move the *client_secret.json* to the **gmail-word-searcher/** directory, **rename** it to **credentials.json** and you're good to go.
 
 The first time you use the script, a web browser will open to authenticate on Gmail. This will create a **token.json** file and you'll don't need to do this on the next execution.
 
